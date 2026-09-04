@@ -22,8 +22,8 @@ export default function Rankings() {
       title="Rankings"
       subtitle={
         tab === 'singles'
-          ? `${POINTS.singlesWin} pts a singles win · ${POINTS.doublesWinForSingles} pts via doubles · +${POINTS.championshipBonus} per title run`
-          : `${POINTS.doublesWin} pts a win as a pair · +${POINTS.championshipBonus} per title run`
+          ? `${POINTS.singlesWin} pts a singles win · ${POINTS.doublesWinForSingles} pts via doubles · +${POINTS.championshipBonus} per title run · +${POINTS.matchPlayed} per match played · -${POINTS.lossPenalty} per loss`
+          : `${POINTS.doublesWin} pts a win as a pair · +${POINTS.championshipBonus} per title run · +${POINTS.matchPlayed} per match played · -${POINTS.lossPenalty} per loss`
       }
     >
       <div className="tab-row">

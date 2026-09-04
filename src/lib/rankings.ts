@@ -9,12 +9,16 @@ interface Ctx {
 const byId = <T extends { id: string }>(items: T[]) => new Map(items.map((i) => [i.id, i]))
 
 /** Points awarded per result. A singles win is worth more than a doubles win credited
- * toward the singles ranking, since it's an individual result; championships add a bonus. */
+ * toward the singles ranking, since it's an individual result; championships add a bonus.
+ * matchPlayed rewards activity (every completed match, win or lose) and lossPenalty docks
+ * points per loss, so total matches played and losses both move the ranking, not just wins. */
 export const POINTS = {
   singlesWin: 3,
   doublesWinForSingles: 2,
   doublesWin: 3,
   championshipBonus: 5,
+  matchPlayed: 0.5,
+  lossPenalty: 1,
 }
 
 /** Consecutive-win championships: every run of 3 straight wins earns one championship
@@ -105,6 +109,8 @@ export function computeSinglesRanking({ players, matches, participants }: Ctx): 
     row.championships = championships
     row.currentStreak = currentStreak
     row.points += championships * POINTS.championshipBonus
+    row.points += row.matches * POINTS.matchPlayed
+    row.points -= row.losses * POINTS.lossPenalty
   }
 
   return sortRows(Array.from(rows.values()))
@@ -174,6 +180,8 @@ export function computeDoublesRanking({ players, matches, participants }: Ctx): 
     row.championships = championships
     row.currentStreak = currentStreak
     row.points += championships * POINTS.championshipBonus
+    row.points += row.matches * POINTS.matchPlayed
+    row.points -= row.losses * POINTS.lossPenalty
   }
 
   return sortRows(Array.from(rows.values()))
